@@ -1,0 +1,26 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "userId", 
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "sidebarName", 
+      "AttributeType": "S"
+    }
+  ], 
+  "KeySchema": [
+    {
+      "KeyType": "HASH", 
+      "AttributeName": "userId"
+    }, 
+    {
+      "KeyType": "RANGE", 
+      "AttributeName": "sidebarName"
+    }
+  ], 
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 1, 
+    "WriteCapacityUnits": 1 
+  } 
+}

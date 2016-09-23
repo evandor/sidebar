@@ -1,0 +1,61 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+}
+
+.wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.container-left {
+    position: relative;
+    /* Necessary to put this frame on top of the other */
+    z-index: 1;
+    width: 200px;
+    height: 100%;
+}
+
+.container-right {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding-left: 200px;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.inner-left {
+    height: 100%; 
+    border:none; 
+    border-right: 1px dashed gray;
+}
+
+
+/*div#inner-left {
+    height: 100%; 
+    border:none; 
+    border-right: 1px dashed gray;
+
+    width: 15%;
+    background: red;
+    float: left;
+}
+
+div#inner-right {
+    height: 100%; 
+    border:none; 
+    border-right: 1px dashed gray;
+
+    margin-left: 15%;
+    background: black;
+}*/

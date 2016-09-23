@@ -1,0 +1,35 @@
+{
+    "TableDescription": {
+        "TableArn": "arn:aws:dynamodb:us-east-1:918943519227:table/bookmark", 
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "bucketname", 
+                "AttributeType": "S"
+            }, 
+            {
+                "AttributeName": "sidebarUUID", 
+                "AttributeType": "S"
+            }
+        ], 
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0, 
+            "WriteCapacityUnits": 1, 
+            "ReadCapacityUnits": 1
+        }, 
+        "TableSizeBytes": 0, 
+        "TableName": "bookmark", 
+        "TableStatus": "CREATING", 
+        "KeySchema": [
+            {
+                "KeyType": "HASH", 
+                "AttributeName": "sidebarUUID"
+            }, 
+            {
+                "KeyType": "RANGE", 
+                "AttributeName": "bucketname"
+            }
+        ], 
+        "ItemCount": 0, 
+        "CreationDateTime": 1472551675.715
+    }
+}

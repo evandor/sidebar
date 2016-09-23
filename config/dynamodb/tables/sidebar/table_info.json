@@ -1,0 +1,35 @@
+{
+    "TableDescription": {
+        "TableArn": "arn:aws:dynamodb:us-east-1:918943519227:table/sidebar", 
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "sidebarName", 
+                "AttributeType": "S"
+            }, 
+            {
+                "AttributeName": "userId", 
+                "AttributeType": "S"
+            }
+        ], 
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0, 
+            "WriteCapacityUnits": 1, 
+            "ReadCapacityUnits": 1
+        }, 
+        "TableSizeBytes": 0, 
+        "TableName": "sidebar", 
+        "TableStatus": "CREATING", 
+        "KeySchema": [
+            {
+                "KeyType": "HASH", 
+                "AttributeName": "userId"
+            }, 
+            {
+                "KeyType": "RANGE", 
+                "AttributeName": "sidebarName"
+            }
+        ], 
+        "ItemCount": 0, 
+        "CreationDateTime": 1472550882.414
+    }
+}

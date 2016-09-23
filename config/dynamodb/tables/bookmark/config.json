@@ -1,0 +1,26 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "sidebarUUID", 
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "bucketname", 
+      "AttributeType": "S"
+    } 
+  ], 
+  "KeySchema": [
+    {
+      "KeyType": "HASH", 
+      "AttributeName": "sidebarUUID"
+    }, 
+    {
+      "KeyType": "RANGE", 
+      "AttributeName": "bucketname"
+    }
+  ], 
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 1, 
+    "WriteCapacityUnits": 1 
+  } 
+}
