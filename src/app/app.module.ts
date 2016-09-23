@@ -8,11 +8,13 @@ import { Frames2 } from './frames';
 
 
 import { routing, appRoutingProviders }  from './app.routing';
+import { SidebarsComponent } from './sidebars/sidebars.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    Frames2
+    Frames2,
+    SidebarsComponent
   ],
   imports: [
     BrowserModule,

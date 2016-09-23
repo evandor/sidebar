@@ -8,6 +8,7 @@
                         <span *ngIf="authenticated"><a (click)="signOut()" target="_top">
                         <i class="fa fa-sign-out" aria-hidden="true" title="sign out"></i></a></span>
                     </div>
+                    <div><a [routerLink]="['/sidebars']" target="content">sidebars</a></div>
                     <div *ngIf="sidebars.length == 0 && authenticated"><br><i class="fa fa-spinner fa-spin" style="font-size:16px;color:green;" aria-hidden="true"></i></div>
                     <div><br><b><i>Sidebars</i>:</b></div>
                     <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars','local']" target="_top">local</a>                    &nbsp;

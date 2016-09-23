@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Frames2 } from './frames';
-//import { Sidebar,Sidebars } from './sidebar';
+import { SidebarsComponent } from './sidebars/sidebars.component';
 //import { NoContent } from './no-content';
 
 //import { DataResolver } from './app.resolver';
@@ -10,7 +10,7 @@ import { Frames2 } from './frames';
 
 const appRoutes: Routes = [
   { path: '',                  component: Frames2 },
-  { path: ':sidebar',          component: Frames2 },
+  { path: 'sidebars',          component: SidebarsComponent },
   { path: 'frames2',           component: Frames2 },
   { path: 'frames2/:sidebar',  component: Frames2 },
   { path: '**',                component: Frames2 }
