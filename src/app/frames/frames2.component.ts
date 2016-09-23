@@ -7,6 +7,8 @@ import { AppState } from '../domain/appstate';
 import { Sidebar } from '../domain/sidebar';
 import { Category } from '../domain/category';
 
+import { UUID } from 'angular2-uuid';
+
 declare var gapi: any; // Google's login API namespace
 declare var AWS: any;  // Amazon
 
@@ -48,10 +50,12 @@ export class Frames2 implements OnInit, OnDestroy {
 
 
   private sub: Subscription;
-  private uuid: string = "d56cc24e-6326-4d11-90f6-44c5c997f5c3";
   bookmarks: Array<any> = [];
   private url: SafeResourceUrl;
   sidebars: Array<Sidebar> = [];
+
+  private currentSidebarUuid: string = "local";
+  private currentCategoryUuid: string = null;
 
   constructor(public route: ActivatedRoute, private domSanitizer: DomSanitizer, private _zone: NgZone) {
     this.appstate = new AppState();
@@ -59,8 +63,8 @@ export class Frames2 implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.uuid = params['sidebar'];
-      if (this.uuid == "local") {
+      this.currentSidebarUuid = params['sidebar'];
+      if (this.currentSidebarUuid == "local") {
 
       }
     });
@@ -170,7 +174,9 @@ export class Frames2 implements OnInit, OnDestroy {
     }
     var cat = new Category();
     cat.bucketname = value;
+    cat.uuid = UUID.UUID();
     this.localBMs.push(cat);
     localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
+    this.currentCategoryUuid = cat.uuid;
   }
 }

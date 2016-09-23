@@ -39,23 +39,3 @@ iframe {
     border:none; 
     border-right: 1px dashed gray;
 }
-
-
-/*div#inner-left {
-    height: 100%; 
-    border:none; 
-    border-right: 1px dashed gray;
-
-    width: 15%;
-    background: red;
-    float: left;
-}
-
-div#inner-right {
-    height: 100%; 
-    border:none; 
-    border-right: 1px dashed gray;
-
-    margin-left: 15%;
-    background: black;
-}*/

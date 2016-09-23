@@ -6,15 +6,16 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { Frames2 } from './frames';
 
-
 import { routing, appRoutingProviders }  from './app.routing';
 import { SidebarsComponent } from './sidebars/sidebars.component';
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     Frames2,
-    SidebarsComponent
+    SidebarsComponent, 
+    BookmarksComponent
   ],
   imports: [
     BrowserModule,
