@@ -12,6 +12,9 @@ import { BookmarksComponent } from './bookmarks/bookmarks.component';
 const appRoutes: Routes = [
   { path: '',                   component: Frames2 },
   { path: 'manage',             component: SidebarsComponent },
+  { path: 'about',              component: SidebarsComponent },
+  { path: 'help',               component: SidebarsComponent },
+  { path: 'faq',                component: SidebarsComponent },
   { path: 'addurl',             component: BookmarksComponent },
   { path: 'addurl/:category',   component: BookmarksComponent },
   { path: 'frames2',            component: Frames2 },

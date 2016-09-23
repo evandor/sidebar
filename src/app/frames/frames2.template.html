@@ -1,6 +1,38 @@
 <div class='wrapper'>
     <div class='container-left'>
-        <div [@heroState]="appstate.state" class="inner-left">
+
+        <div *ngIf="!authenticated" id="anonymousSidebar" style="width:190px; padding-left:5px;padding-top:5px;">
+            <h3>the bookmark manager</h3>
+            <div style="padding:14px;">
+                <div><a [routerLink]="['/']" target="_top">Home</a></div>
+                <div><a [routerLink]="['/about']" target="content">About</a></div>
+                <div><a [routerLink]="['/help']" target="content">Help</a></div>
+                <div><a [routerLink]="['/faq']" target="content">FAQ</a></div>
+
+                <div *ngFor="let sidebar of sidebars">
+                    <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars',sidebar.uuid]" target="_top">{{sidebar.sidebarName}}</a>
+                </div>
+            </div>
+            <h3>Sidebars</h3>
+            <div style="padding:14px;">
+                <div><br><b><i>Sidebars</i>:</b></div>
+                <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars','local']" target="_top">local</a>                    &nbsp;
+                <input name="newcat" size="7" placeholder="new cat" (change)="createCategory('local', $event.target.value)">
+            </div>
+            <h3>Examples</h3>
+            <div style="padding:14px;">
+                <div><a href="https://en.wikipedia.org/wiki/Wikipedia" target="content">Wikipedia</a></div>
+            </div>
+            <h3>Debug</h3>
+            <div style="padding:14px;">
+                <div>Sidebar:</div>
+                <div>{{currentSidebarUuid}}</div>
+                <div>Category:</div>
+                <div>{{currentCategoryUuid}}</div>
+            </div>
+        </div>
+
+        <div *ngIf="authenticated" [@heroState]="appstate.state" class="inner-left">
             <div id="accordion" style="width:190px; padding-left:5px;padding-top:5px;">
                 <h3>Manage Sidebars</h3>
                 <div style="padding:14px;">
@@ -61,10 +93,6 @@
 
         </div>
 
-        <!--<div id="accordion2" style="width:190px; padding-left:5px;padding-top:5px;" 
-                * n gFor="let category of bookmarks" [innerHTML]="getCategoryCode(category)">
-            </div>-->
-
         <div *ngIf="currentSidebarUuid!='local'" id="accordion3" style="width:190px; padding-left:5px;padding-top:5px;">
             <template ngFor <template ngFor let-category [ngForOf]="bookmarks">
 
@@ -76,12 +104,12 @@
         </div>
 
         <div *ngIf="currentSidebarUuid=='local'" id="accordion4" style="width:190px; padding-left:5px;padding-top:5px;">
-            <template ngFor <template ngFor let-category [ngForOf]="localBMs">
+            <template ngFor <template ngFor let-category [ngForOf]="localBMs" >
 
-                <h3>{{category.bucketname}}</h3>
+                <h3 (click)="setCat(category)">{{category.bucketname}}</h3>
                 <div>
                     <div *ngFor="let bookmark of category.bookmarks">
-                        <a href='#' target="content">{{bookmark.url}}</a>
+                        <a href='{{bookmark.url}}' target="content">{{bookmark.url}}</a>
                     </div>
                 </div>
             </template>

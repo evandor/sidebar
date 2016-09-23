@@ -91,6 +91,10 @@ export class Frames2 implements OnInit, OnDestroy {
       collapsible: true,
       heightStyle: "content"
     });
+    jQuery("#anonymousSidebar").accordion({
+      collapsible: true,
+      heightStyle: "content"
+    });
   }
 
   ngOnDestroy() {
@@ -178,5 +182,10 @@ export class Frames2 implements OnInit, OnDestroy {
     this.localBMs.push(cat);
     localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
     this.currentCategoryUuid = cat.uuid;
+  }
+
+  setCat(category: Category) {
+    console.log(category.uuid);
+    this.currentCategoryUuid = category.uuid;
   }
 }
