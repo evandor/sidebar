@@ -76,8 +76,8 @@ GRGRRRRRR
 
 stared as angular-cli project: ng new sidebar
 created new github repo "sidebar"
-git remote add origin https://github.com/evandor/sb.git
-ng github-pages:deploy --message "testing github pages deploy"
+git remote add origin https://github.com/evandor/sidebar.git
+//ng github-pages:deploy --message "testing github pages deploy"
 
 --- relevant commands ---
 
