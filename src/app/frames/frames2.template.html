@@ -16,7 +16,7 @@
             <h3>Sidebars</h3>
             <div style="padding:14px;">
                 <div><br><b><i>Sidebars</i>:</b></div>
-                <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars','local']" target="_top">local</a>                    &nbsp;
+                <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars','local']" target="_top">local</a>                &nbsp;
                 <input name="newcat" size="7" placeholder="new cat" (change)="createCategory('local', $event.target.value)">
             </div>
             <h3>Examples</h3>
@@ -59,7 +59,7 @@
                     <div><a href="https://github.com/evandor" target="content">Github</a></div>
                     <div><a href="http://notes.skysail.io" target="content">notes.skysail.io</a></div>
                 </div>
-                <h3>Development</h3>
+                <!--<h3>Development</h3>
                 <div>
                     <div><a href="https://console.aws.amazon.com" target="_amazonaws">AWS Console</a></div>
                     <div><a href="https://console.aws.amazon.com/dynamodb/home?region=us-east-1" target="_amazondynamodb">DynamoDb</a></div>
@@ -69,8 +69,8 @@
                     <div><a href="http://www.spiegel.de" target="content">Spiegel</a></div>
                     <div><a href="http://www.heise.de" target="content">Heise</a></div>
                     <div><a href="http://www.dzone.com" target="content">Dzone</a></div>
-                </div>
-                <h3>Google</h3>
+                </div>-->
+                <!-- <h3>Google</h3>
                 <div>
                     <div><a href="https://inbox.google.com" target="_googleinbox">Inbox</a></div>
                     <div><a href="https://calendar.google.com/calendar/render" target="_googlecalendar">Calendar</a></div>
@@ -86,14 +86,13 @@
                 <h3>Deprecated</h3>
                 <div>
                     <div (click)="appstate.toggleState()">test</div>
-                    <!--<div><a href="/sidebars" target="content">switch sidebar</a></div>-->
                     <div><a href="/assets/static/index.html" target="content">sidebar home</a></div>
-                </div>
+                </div>-->
             </div>
 
         </div>
 
-        <div *ngIf="currentSidebarUuid!='local'" id="accordion3" style="width:190px; padding-left:5px;padding-top:5px;">
+        <!--<div *ngIf="currentSidebarUuid!='local'" id="accordion3" style="width:190px; padding-left:5px;padding-top:5px;">
             <template ngFor <template ngFor let-category [ngForOf]="bookmarks">
 
                 <h3>{{category.bucketname}}</h3>
@@ -101,7 +100,7 @@
                     <div><a href="/assets/static/index.html" target="content">A</a></div>
                 </div>
             </template>
-        </div>
+        </div>-->
 
         <div *ngIf="currentSidebarUuid=='local'" id="accordion4" style="width:190px; padding-left:5px;padding-top:5px;">
             <template ngFor <template ngFor let-category [ngForOf]="localBMs" >

@@ -18,6 +18,7 @@ export class DynamoDBService {
                 ":userId": id
             }
         };
+        console.log(params);
         var docClient = new AWS.DynamoDB.DocumentClient();
         docClient.query(params, onQuery);
 
@@ -25,7 +26,7 @@ export class DynamoDBService {
             if (err) {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
-                console.log("Query succeeded.");
+                //console.log("Query succeeded.");
                 data.Items.forEach(function (logitem) {
                     console.log(logitem);
                     mapArray.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId });

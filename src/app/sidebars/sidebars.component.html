@@ -1,3 +1,46 @@
-<p>
-  sidebars works!
-</p>
+
+<br><br>
+<div class="container">
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th>Sidebar</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;Local Sidebar</td>
+        <td>the local sidebar available only at this computer</td>
+        <td>
+          <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </td>
+      </tr>
+      <tr *ngFor="let sidebar of sidebars">
+        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars',sidebar.uuid]" target="_top">{{sidebar.sidebarName}}</a></td>
+        <td>-</td>
+        <td>
+          <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+    <div class="row">
+      <div class="twelf columns">
+        <label for="exampleEmailInput">new Sidebar...</label>
+        <!--<input class="u-full-width" placeholder="http://" id="url" type="url" required [(ngModel)]="bookmark.url" name="url">-->
+      </div>
+    </div>
+    <button type="submit" class="button-primary">Submit</button>
+  </form>
+</div>
+
+<div id="{{googleLoginButtonId}}"></div>

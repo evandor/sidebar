@@ -1,0 +1,18 @@
+{
+  "sessions": [
+    {
+      "id": "a7483784-1f01-4f3c-86ac-48f40b30ea16",
+      "tabLayout": {
+        "type": "stack",
+        "width": 100,
+        "height": 100,
+        "tabs": [],
+        "subItems": [],
+        "activeItemIndex": 0
+      },
+      "lastUsed": 1474875034813,
+      "selectedTabId": null
+    }
+  ],
+  "relativePathToTsconfig": "./tsconfig.json"
+}
