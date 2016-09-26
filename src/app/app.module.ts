@@ -9,13 +9,14 @@ import { Frames2 } from './frames';
 import { routing, appRoutingProviders }  from './app.routing';
 import { SidebarsComponent } from './sidebars/sidebars.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     Frames2,
     SidebarsComponent, 
-    BookmarksComponent
+    BookmarksComponent, AboutComponent
   ],
   imports: [
     BrowserModule,

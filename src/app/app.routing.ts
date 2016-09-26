@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { Frames2 } from './frames';
 import { SidebarsComponent } from './sidebars/sidebars.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
+import { AboutComponent } from './about/about.component';
+
 //import { NoContent } from './no-content';
 
 //import { DataResolver } from './app.resolver';
@@ -12,7 +14,7 @@ import { BookmarksComponent } from './bookmarks/bookmarks.component';
 const appRoutes: Routes = [
   { path: '',                   component: Frames2 },
   { path: 'manage',             component: SidebarsComponent },
-  { path: 'about',              component: SidebarsComponent },
+  { path: 'about',              component: AboutComponent },
   { path: 'help',               component: SidebarsComponent },
   { path: 'faq',                component: SidebarsComponent },
   { path: 'addurl',             component: BookmarksComponent },
