@@ -1,4 +1,6 @@
-
+<div *ngIf="!authenticated">
+  <div id="{{googleLoginButtonId}}" style="position: absolute;right: 0px;"></div>
+</div>
 <br><br>
 <div class="container">
   <table class="u-full-width">
@@ -42,5 +44,3 @@
     <button type="submit" class="button-primary">Submit</button>
   </form>
 </div>
-
-<div id="{{googleLoginButtonId}}"></div>

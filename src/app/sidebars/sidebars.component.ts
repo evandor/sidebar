@@ -14,7 +14,8 @@ declare var AWS: any;  // Amazon´
   providers: [GoogleService, AWSService]
 })
 export class SidebarsComponent {
-
+ 
+  authenticated = false;
   sidebars: Array<Sidebar> = [];
   googleLoginButtonId = "google-login-button";
   
@@ -25,7 +26,7 @@ export class SidebarsComponent {
   }
 
   onGoogleLoginSuccess = (loggedInUser) => {
-    //this.authenticated = true;
+    this.authenticated = true;
     this._zone.run(() => {
       this.awsService.handleCredentials(loggedInUser);
       var ctx = this;
