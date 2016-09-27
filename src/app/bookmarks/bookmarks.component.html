@@ -1,7 +1,6 @@
-<p>
-  bookmarks works! {{currentCategoryUuid}}
-</p>
-
+<div *ngIf="!authenticated">
+  <div id="{{googleLoginButtonId}}" style="position: absolute;right: 0px;"></div>
+</div>
 <div class="container">
   <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
     <div class="row">
@@ -18,15 +17,6 @@
       </select>
       </div>
     </div>
-    <!--
-  <label for="exampleMessage">Message</label>
-  <textarea class="u-full-width" placeholder="Hi Dave …" id="exampleMessage"></textarea>
-  <label class="example-send-yourself-copy">
-    <input type="checkbox">
-    <span class="label-body">Send a copy to yourself</span>
-  </label>
-  <input class="button-primary" value="Submit" type="submit">-->
     <button type="submit" class="button-primary">Submit</button>
   </form>
 </div>
-<div id="{{googleLoginButtonId}}"></div>

@@ -63,9 +63,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.currentSidebarUuid = params['sidebar'];
-      if (this.currentSidebarUuid == "local") {
-
+      if (params['sidebar'] != null) {
+        this.currentSidebarUuid = params['sidebar'];
       }
     });
     var localCatsAsString = localStorage.getItem(this.localCategoriesIdent);
@@ -75,6 +74,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     var localBMsAsString = localStorage.getItem(this.localBMsIdent);
     if (localBMsAsString != null) {
       this.localBMs = JSON.parse(localBMsAsString);
+      this.loadAccordion();
     }
   }
 
