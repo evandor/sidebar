@@ -1,5 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Sidebar } from '../domain/sidebar';
+import { Category } from '../domain/category';
+import { Bookmark } from '../domain/bookmark';
 import { DynamoDBService } from '../services/dynamodb.service';
 import { GoogleService } from '../services/google.service';
 import { AWSService } from '../services/aws.service';
@@ -17,6 +19,8 @@ export class SidebarsComponent {
  
   authenticated = false;
   sidebars: Array<Sidebar> = [];
+  categories: Array<Category> = [];
+  bookmarks: Array<Bookmark> = [];
   googleLoginButtonId = "google-login-button";
   
   constructor(private _zone: NgZone, private googleService: GoogleService, private awsService: AWSService) { }
@@ -32,12 +36,31 @@ export class SidebarsComponent {
       var ctx = this;
       AWS.config.credentials.get(function (err) {
         if (!err) {
-          var id = AWS.config.credentials.identityId;
-          console.log("###Cognito Identity Id:", id);
-          DynamoDBService.getSidebars(id, ctx.sidebars);
+          DynamoDBService.getSidebars(AWS.config.credentials.identityId, ctx.sidebars);
         }
       });
     });
+  }
+
+  setSidebar(sidebar: string) {
+    this.categories = new Array<Category>();
+    var ctx = this;
+    AWS.config.credentials.get(function (err) {
+        if (!err) {
+          DynamoDBService.getCategories(sidebar, ctx.categories);
+        }
+      });
+  }
+
+  setCategory(category: string) {
+    console.log(category);
+    this.bookmarks = new Array<Bookmark>();
+    var ctx = this;
+    AWS.config.credentials.get(function (err) {
+        if (!err) {
+         DynamoDBService.getBookmarks(category, ctx.bookmarks);
+        }
+      });
   }
 
 }

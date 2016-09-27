@@ -104,15 +104,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   fetchBookmarks(id) {
     console.log("fetching bookmarks for sidebar " + id);
     DynamoDBService.getBookmarks(id, this.bookmarks);
-    console.log(this.bookmarks);
   }
 
   onGoogleLoginSuccess = (loggedInUser) => {
     this.authenticated = true;
     this._zone.run(() => {
       this.userAuthToken = loggedInUser.getAuthResponse().id_token;
-      console.log("userAuthToken");
-      console.log(this.userAuthToken);
       this.userDisplayName = loggedInUser.getBasicProfile().getName();
       this.userPic = loggedInUser.getBasicProfile().getImageUrl();
 
@@ -130,7 +127,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       AWS.config.credentials.get(function (err) {
         if (!err) {
           var id = AWS.config.credentials.identityId;
-          console.log("Cognito Identity Id:", id);
           ctx.fetchBookmarks("d56cc24e-6326-4d11-90f6-44c5c997f5c3");
           DynamoDBService.getSidebars(id, ctx.sidebars);
         }

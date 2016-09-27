@@ -6,14 +6,14 @@
   <table class="u-full-width">
     <thead>
       <tr>
-        <th>Sidebar</th>
+        <th style="width:200px;">Sidebar</th>
         <th>Description</th>
-        <th>Actions</th>
+        <th style="width:200px;">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;Local Sidebar</td>
+        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a (click)="setSidebar('local')" style="cursor:pointer;">Local Sidebar</a></td>
         <td>the local sidebar available only at this computer</td>
         <td>
           <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp;
@@ -22,12 +22,12 @@
         </td>
       </tr>
       <tr *ngFor="let sidebar of sidebars">
-        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars',sidebar.uuid]" target="_top">{{sidebar.sidebarName}}</a></td>
+        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a (click)="setSidebar(sidebar.uuid)" style="cursor:pointer;">{{sidebar.sidebarName}}</a></td>
         <td>-</td>
         <td>
           <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp;
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;
-          <i class="fa fa-cog" aria-hidden="true"></i>
+          <a [routerLink]="['/sidebars',sidebar.uuid]" target="_top"><i class="fa fa-cog" aria-hidden="true"></i></a>
         </td>
       </tr>
     </tbody>
@@ -43,4 +43,49 @@
     </div>
     <button type="submit" class="button-primary">Submit</button>
   </form>
+
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th style="width:200px;">Category</th>
+        <th>Description</th>
+        <th style="width:200px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a (click)="setCategory(category.uuid)" style="cursor:pointer;">{{category.bucketname}}</a></td>
+        <td>-</td>
+        <td>
+          <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th style="width:200px;">Bookmark</th>
+        <th>Description</th>
+        <th style="width:200px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bookmark of bookmarks">
+        <td><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a href="#" style="cursor:pointer;">{{bookmark.url}}</a></td>
+        <td>-</td>
+        <td>
+          <i class="fa fa-external-link" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
 </div>

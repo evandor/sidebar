@@ -18,7 +18,6 @@ export class DynamoDBService {
                 ":userId": id
             }
         };
-        console.log(params);
         var docClient = new AWS.DynamoDB.DocumentClient();
         docClient.query(params, onQuery);
 
@@ -26,21 +25,19 @@ export class DynamoDBService {
             if (err) {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
-                //console.log("Query succeeded.");
                 data.Items.forEach(function (logitem) {
-                    console.log(logitem);
                     mapArray.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId });
                 });
             }
         }
     }
 
-    static getBookmarks(id: string, mapArray: Array<any>) {
+    static getCategories(sidebarUUID: string, mapArray: Array<any>) {
         var params = {
             TableName: 'bookmark',
             KeyConditionExpression: "sidebarUUID = :sidebarUUID",
             ExpressionAttributeValues: {
-                ":sidebarUUID": id
+                ":sidebarUUID": sidebarUUID
             }
         };
         var docClient = new AWS.DynamoDB.DocumentClient();
@@ -50,7 +47,30 @@ export class DynamoDBService {
             if (err) {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
-                console.log("Query succeeded.");
+                data.Items.forEach(function (logitem) {
+                    mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
+                });
+            }
+        }
+    }
+
+
+    static getBookmarks(id: string, mapArray: Array<any>) {
+        var params = {
+            TableName: 'bookmark',
+            KeyConditionExpression: "sidebarUUID = :sidebarUUID",
+            ExpressionAttributeValues: {
+                ":sidebarUUID": id
+            }
+        };
+        console.log(params);
+        var docClient = new AWS.DynamoDB.DocumentClient();
+        docClient.query(params, onQuery);
+
+        function onQuery(err, data) {
+            if (err) {
+                console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
+            } else {
                 data.Items.forEach(function (logitem) {
                     console.log(logitem);
                     mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
