@@ -89,7 +89,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       });
     jQuery("#accordion").accordion({
       collapsible: true,
-      heightStyle: "content"
+      heightStyle: "content",
+      active: false
     });
     jQuery("#anonymousSidebar").accordion({
       collapsible: true,

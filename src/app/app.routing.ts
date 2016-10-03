@@ -1,6 +1,5 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Frames2 } from './frames';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SidebarsComponent } from './sidebars/sidebars.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
@@ -20,11 +19,10 @@ const appRoutes: Routes = [
   { path: 'help',               component: SidebarsComponent },
   { path: 'faq',                component: FaqComponent },
   { path: 'addurl',             component: BookmarksComponent },
-  { path: 'addurl/:category',   component: BookmarksComponent },
-  { path: 'frames2',            component: Frames2 },
-  { path: 'sidebar',            component: SidebarComponent },
-  { path: 'sidebars/:sidebar',  component: Frames2 },
-  { path: '**',                 component: SidebarComponent }
+  { path: 'sidebar',                                  component: SidebarComponent },
+  { path: 'sidebars/:sidebar/categories/:category',   component: BookmarksComponent },
+  { path: 'sidebars/:sidebar',                        component: SidebarComponent },
+  { path: '**',                                       component: SidebarComponent }
 ];
 
 export const appRoutingProviders: any[] = [

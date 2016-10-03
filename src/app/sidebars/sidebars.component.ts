@@ -53,7 +53,6 @@ export class SidebarsComponent {
   }
 
   setCategory(category: string) {
-    console.log(category);
     this.bookmarks = new Array<Bookmark>();
     var ctx = this;
     AWS.config.credentials.get(function (err) {

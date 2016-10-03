@@ -7,6 +7,8 @@ import { Category } from '../domain/category';
 declare var gapi: any; // Google's login API namespace
 declare var AWS: any;  // Amazon
 
+declare var jQuery: any;
+
 @Component({
   selector: 'app-bookmarks',
   templateUrl: './bookmarks.component.html',
@@ -16,7 +18,9 @@ export class BookmarksComponent implements OnInit {
 
   private sub: Subscription;
   private currentCategoryUuid: string = null;
+  private currentSidebarUuid: string = null;
   private bookmark: Bookmark = new Bookmark();
+  private message: string = "";
 
   googleLoginButtonId = "google-login-button";
 
@@ -28,6 +32,7 @@ export class BookmarksComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.currentCategoryUuid = params['category'];
+      this.currentSidebarUuid = params['sidebar'];
     });
     var localBMsAsString = localStorage.getItem(this.localBMsIdent);
     if (localBMsAsString != null) {
@@ -44,6 +49,9 @@ export class BookmarksComponent implements OnInit {
         "theme": "dark",
         "onfailure": function (err) { console.log("error:" + err); }
       });
+    jQuery("#tags").textext({
+      plugins: 'tags'     
+    });
   }
 
   onGoogleLoginSuccess = (loggedInUser) => {
@@ -52,6 +60,16 @@ export class BookmarksComponent implements OnInit {
 
 
   onSubmit() {
+    if (this.currentSidebarUuid == 'local') {
+      this.handleLocalSidebar();
+    } else if (this.currentSidebarUuid == null) {
+      this.message = "sidebar uuid is null!";
+    } else {
+      this.handleRemoteSidebar();
+    }
+  }
+
+  handleLocalSidebar () {
     let result:Category = this.localBMs.filter(item => item.uuid == this.currentCategoryUuid)[0] as Category;
     if (result != null) {
       //this.localBMs.indexOf(result);
@@ -61,8 +79,25 @@ export class BookmarksComponent implements OnInit {
       console.log("submitting...");
       result.bookmarks.push(this.bookmark);
       localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
+      this.bookmark = new Bookmark();
+    } else {
+      this.message = "could not find local bookmark category for uuid " + this.currentCategoryUuid;
     }
-    this.bookmark = new Bookmark();
   }
 
+  handleRemoteSidebar () {
+    let result:Category = this.localBMs.filter(item => item.uuid == this.currentCategoryUuid)[0] as Category;
+    if (result != null) {
+      //this.localBMs.indexOf(result);
+      if (result.bookmarks == null) {
+        result.bookmarks = new Array<Bookmark>();
+      }
+      console.log("submitting...");
+      result.bookmarks.push(this.bookmark);
+      localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
+      this.bookmark = new Bookmark();
+    } else {
+      this.message = "could not find local bookmark category for uuid " + this.currentCategoryUuid;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 export class Bookmark {
+    public uuid: string;
+    public url: string;
     public name: string;
     public title: string;
-    public url: string;
-    public uuid: string;
+    public tags: string;
 }

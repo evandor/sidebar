@@ -63,7 +63,7 @@ export class DynamoDBService {
                 ":sidebarUUID": id
             }
         };
-        console.log(params);
+        //console.log(params);
         var docClient = new AWS.DynamoDB.DocumentClient();
         docClient.query(params, onQuery);
 
@@ -72,7 +72,7 @@ export class DynamoDBService {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
                 data.Items.forEach(function (logitem) {
-                    console.log(logitem);
+                    //console.log(logitem);
                     mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
                 });
             }
@@ -81,7 +81,7 @@ export class DynamoDBService {
 
     static writeLogEntry(type: string) {
         let date = new Date().toString();
-        console.log("Writing log entry..type:" + type + " id: " + AWS.config.credentials.params.IdentityId + " date: " + date);
+        //console.log("Writing log entry..type:" + type + " id: " + AWS.config.credentials.params.IdentityId + " date: " + date);
         DynamoDBService.write(AWS.config.credentials.params.IdentityId, date, type);
     }
 

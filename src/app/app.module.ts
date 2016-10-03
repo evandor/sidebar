@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { Frames2 } from './frames';
 
 import { routing, appRoutingProviders }  from './app.routing';
 import { SidebarsComponent } from './sidebars/sidebars.component';
@@ -16,7 +15,6 @@ import { FaqComponent } from './faq/faq.component';
 @NgModule({
   declarations: [
     AppComponent,
-    Frames2,
     SidebarsComponent, 
     BookmarksComponent, AboutComponent, SidebarComponent, FaqComponent
   ],
