@@ -52,9 +52,6 @@
             </div>
             <h3>Skysail</h3>
             <div>
-                <div><a href="http://jenkins.twentyeleven.de/job/skysail.doc/ws/doc/gen/index.html" target="content">skysail</a></div>
-                <div><a href="http://jenkins.twentyeleven.de/" target="_jenkins">jenkins</a></div>
-                <div><a href="http://prototypr.int.skysail.io/" target="content">Prototypr (int)</a></div>
                 <div><a href="http://demo.int.skysail.io/" target="content">Demo App (int)</a></div>
                 <div><a href="https://github.com/evandor" target="content">Github</a></div>
                 <div><a href="http://notes.skysail.io" target="content">notes.skysail.io</a></div>
@@ -87,7 +84,9 @@
 
                 <h3 (click)="setCat(category)">{{category.bucketname}}</h3>
                 <div>
-                    <div><a href="/assets/static/index.html" target="content">A</a></div>
+                    <div *ngFor="let bookmark of category.bookmarks">
+                        <a href='{{bookmark.url}}' target="content">{{bookmark.name}}</a>
+                    </div>
                 </div>
             </template>
         </div>
@@ -98,7 +97,7 @@
                 <h3 (click)="setCat(category)">{{category.bucketname}}</h3>
                 <div>
                     <div *ngFor="let bookmark of category.bookmarks">
-                        <a href='{{bookmark.url}}' target="content">{{bookmark.url}}</a>
+                        <a href='{{bookmark.url}}' target="content">{{bookmark.name}}</a>
                     </div>
                 </div>
             </template>

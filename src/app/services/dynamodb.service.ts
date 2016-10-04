@@ -116,10 +116,10 @@ export class DynamoDBService {
         });
     }
 
-    static updateCategory(category: Category) {
+    static updateCategory(sidebarUuid: string, category: Category) {
         console.log("updating category " + category.uuid);
-        console.log("with sidebar " + category.sidebarUuid);
-        console.log(category);
+        console.log("with sidebar " + sidebarUuid);
+        console.log(category.bookmarks);
         DynamoDBService.DDB = new AWS.DynamoDB({
             params: { TableName: 'bookmark' }
         });
@@ -128,14 +128,14 @@ export class DynamoDBService {
         var itemParams =
             {
                 Item: {
-                    sidebarUUID: { S: category.sidebarUuid },
+                    sidebarUUID: { S: sidebarUuid },
                     bucketname: { S: category.bucketname },
                     uuid: { S: category.uuid },
                     bookmarks: { S: JSON.stringify(category.bookmarks) }
                 }
             };
-        //DynamoDBService.DDB.putItem(itemParams, function (result) {
-        //});
+        DynamoDBService.DDB.putItem(itemParams, function (result) {
+        });
     }
 
     // --- bookmarks -----------------------------------------------
@@ -157,8 +157,13 @@ export class DynamoDBService {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
                 data.Items.forEach(function (logitem) {
-                    //console.log(logitem);
-                    mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
+                    console.log("hier");
+                    console.log(logitem.bookmarks);
+                    if (logitem.bookmarks == null) {
+                        mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid });
+                    } else {
+                        mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: JSON.parse(logitem.bookmarks) });
+                    }
                 });
             }
         }

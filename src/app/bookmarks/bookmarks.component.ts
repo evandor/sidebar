@@ -117,18 +117,21 @@ export class BookmarksComponent implements OnInit {
                       if (category.bookmarks == null) {
                         console.log("new array of bookmarks");
                         category.bookmarks = new Array<Bookmark>();
+                      } else {
+                        category.bookmarks = JSON.parse(category.bookmarks);
                       }
                       console.log("submitting...");
                       console.log(category.bookmarks);
                       console.log(ctx.bookmark);
                       console.log("go...");
                       category.bookmarks.push(ctx.bookmark);
-                      DynamoDBService.updateCategory(category);
+                      DynamoDBService.updateCategory(ctx.currentSidebarUuid, category);
                     }
                     //mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
                 });
             }
         });
+        window.location.reload();
       }
     });
   }
