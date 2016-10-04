@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 //import { CognitoUtil, UserLoginService, Callback } from "./cognito.service";
 //import { Stuff } from "../secure/useractivity.component";
 import { Sidebar } from "../domain/sidebar";
+import { Category } from "../domain/category";
+
 
 declare var AWS: any;
 
@@ -54,6 +56,40 @@ export class DynamoDBService {
         }
     }
 
+    static getCategories2(sidebarUUID: string, onQuery:any) {
+        var params = {
+            TableName: 'bookmark',
+            KeyConditionExpression: "sidebarUUID = :sidebarUUID",
+            ExpressionAttributeValues: {
+                ":sidebarUUID": sidebarUUID
+            }
+        };
+        var docClient = new AWS.DynamoDB.DocumentClient();
+        docClient.query(params, onQuery);
+    }
+
+    static updateCategory(category: Category) {
+        console.log("updating category " + category.uuid);
+        console.log("with sidebar " + category.sidebarUuid);
+        console.log(category);
+        DynamoDBService.DDB = new AWS.DynamoDB({
+            params: { TableName: 'bookmark' }
+        });
+
+        // Write the item to the table
+        var itemParams =
+            {
+                Item: {
+                    sidebarUUID: { S: category.sidebarUuid },
+                    bucketname: { S: category.bucketname },
+                    uuid: { S: category.uuid },
+                    bookmarks: { S: JSON.stringify(category.bookmarks) }
+                }
+            };
+        //DynamoDBService.DDB.putItem(itemParams, function (result) {
+        //});
+
+    }
 
     static getBookmarks(id: string, mapArray: Array<any>) {
         var params = {

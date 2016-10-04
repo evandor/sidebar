@@ -3,6 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Bookmark } from '../domain/bookmark';
 import { Category } from '../domain/category';
+import { DynamoDBService } from '../services/dynamodb.service';
+import { AWSService } from '../services/aws.service';
+import { GoogleService } from '../services/google.service';
+
+
+
 
 declare var gapi: any; // Google's login API namespace
 declare var AWS: any;  // Amazon
@@ -12,7 +18,8 @@ declare var jQuery: any;
 @Component({
   selector: 'app-bookmarks',
   templateUrl: './bookmarks.component.html',
-  styleUrls: ['./bookmarks.component.css']
+  styleUrls: ['./bookmarks.component.css'],
+  providers: [GoogleService, AWSService]
 })
 export class BookmarksComponent implements OnInit {
 
@@ -26,8 +33,10 @@ export class BookmarksComponent implements OnInit {
 
   localBMsIdent = 'localBMs';
   localBMs = new Array<Category>();
+ 
+  categories: Array<Category> = [];
 
-  constructor(public route: ActivatedRoute) { }
+  constructor(public route: ActivatedRoute, private _zone: NgZone, private awsService: AWSService) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -50,12 +59,21 @@ export class BookmarksComponent implements OnInit {
         "onfailure": function (err) { console.log("error:" + err); }
       });
     jQuery("#tags").textext({
-      plugins: 'tags'     
+      plugins: 'tags'
     });
   }
 
   onGoogleLoginSuccess = (loggedInUser) => {
-
+    //this.authenticated = true;
+    this._zone.run(() => {
+      this.awsService.handleCredentials(loggedInUser);
+      var ctx = this;
+      AWS.config.credentials.get(function (err) {
+        if (!err) {
+          //DynamoDBService.getSidebars(AWS.config.credentials.identityId, ctx.sidebars);
+        }
+      });
+    });
   }
 
 
@@ -69,8 +87,8 @@ export class BookmarksComponent implements OnInit {
     }
   }
 
-  handleLocalSidebar () {
-    let result:Category = this.localBMs.filter(item => item.uuid == this.currentCategoryUuid)[0] as Category;
+  handleLocalSidebar() {
+    let result: Category = this.localBMs.filter(item => item.uuid == this.currentCategoryUuid)[0] as Category;
     if (result != null) {
       //this.localBMs.indexOf(result);
       if (result.bookmarks == null) {
@@ -85,19 +103,33 @@ export class BookmarksComponent implements OnInit {
     }
   }
 
-  handleRemoteSidebar () {
-    let result:Category = this.localBMs.filter(item => item.uuid == this.currentCategoryUuid)[0] as Category;
-    if (result != null) {
-      //this.localBMs.indexOf(result);
-      if (result.bookmarks == null) {
-        result.bookmarks = new Array<Bookmark>();
+  handleRemoteSidebar() {
+    var ctx = this;
+    AWS.config.credentials.get(function (err) {
+      if (!err) {
+        DynamoDBService.getCategories2(ctx.currentSidebarUuid, function onQuery(err, data) {
+            if (err) {
+                console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
+            } else {
+                data.Items.forEach(function (category) {
+                    if (category.uuid == ctx.currentCategoryUuid) {
+                      console.log(category);
+                      if (category.bookmarks == null) {
+                        console.log("new array of bookmarks");
+                        category.bookmarks = new Array<Bookmark>();
+                      }
+                      console.log("submitting...");
+                      console.log(category.bookmarks);
+                      console.log(ctx.bookmark);
+                      console.log("go...");
+                      category.bookmarks.push(ctx.bookmark);
+                      DynamoDBService.updateCategory(category);
+                    }
+                    //mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
+                });
+            }
+        });
       }
-      console.log("submitting...");
-      result.bookmarks.push(this.bookmark);
-      localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
-      this.bookmark = new Bookmark();
-    } else {
-      this.message = "could not find local bookmark category for uuid " + this.currentCategoryUuid;
-    }
+    });
   }
 }
