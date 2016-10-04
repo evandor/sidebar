@@ -57,6 +57,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private currentSidebarUuid: string = "local";
   private currentCategoryUuid: string = null;
 
+  private newCatName = "";
+
   constructor(public route: ActivatedRoute, private domSanitizer: DomSanitizer, private _zone: NgZone) {
     this.appstate = new AppState();
   }
@@ -124,15 +126,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
         region: 'us-east-1',
         credentials: creds
       });
-      var ctx = this;
-      AWS.config.credentials.get(function (err) {
-        if (!err) {
-          var id = AWS.config.credentials.identityId;
-          ctx.fetchBookmarks("d56cc24e-6326-4d11-90f6-44c5c997f5c3");
-          DynamoDBService.getSidebars(id, ctx.sidebars);
-        }
-      });
-
+      if (this.currentSidebarUuid != 'local') {
+        var ctx = this;
+        AWS.config.credentials.get(function (err) {
+          if (!err) {
+            var id = AWS.config.credentials.identityId;
+            ctx.fetchBookmarks(ctx.currentSidebarUuid);
+            DynamoDBService.getSidebars(id, ctx.sidebars);
+          }
+        });
+      }
     });
 
   }
@@ -165,17 +168,33 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
 
-  createCategory(id: string, value: string) {
-    if (this.localCategories.indexOf(value) > -1) {
-      console.log("local Category " + value + " already exists");
-      return;
+  createCategory(value: string) {
+    console.log("creating cat in ");
+    console.log(this.currentSidebarUuid);
+    console.log(value);
+    if (this.currentSidebarUuid == 'local') {
+      if (this.localCategories.indexOf(value) > -1) {
+        console.log("local Category " + value + " already exists");
+        return;
+      }
+      var cat = new Category();
+      cat.bucketname = value;
+      cat.uuid = UUID.UUID();
+      this.localBMs.push(cat);
+      localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
+      this.currentCategoryUuid = cat.uuid;
+    } else {
+      this.newCatName = value;
+      var ctx = this;
+      AWS.config.credentials.get(function (err) {
+        if (!err) {
+          //var id = AWS.config.credentials.identityId;
+          //ctx.fetchBookmarks(ctx.currentSidebarUuid);
+          DynamoDBService.createCategory(ctx.currentSidebarUuid, ctx.newCatName);
+        }
+      });
     }
-    var cat = new Category();
-    cat.bucketname = value;
-    cat.uuid = UUID.UUID();
-    this.localBMs.push(cat);
-    localStorage.setItem(this.localBMsIdent, JSON.stringify(this.localBMs));
-    this.currentCategoryUuid = cat.uuid;
+
   }
 
   setCat(category: Category) {

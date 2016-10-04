@@ -23,6 +23,8 @@ export class SidebarsComponent {
   bookmarks: Array<Bookmark> = [];
   googleLoginButtonId = "google-login-button";
   
+  private newSidebar: Sidebar = new Sidebar();
+  
   constructor(private _zone: NgZone, private googleService: GoogleService, private awsService: AWSService) { }
 
   ngAfterViewInit() {
@@ -58,6 +60,16 @@ export class SidebarsComponent {
     AWS.config.credentials.get(function (err) {
         if (!err) {
          DynamoDBService.getBookmarks(category, ctx.bookmarks);
+        }
+      });
+  }
+
+  onSubmit() {
+    var ctx = this;
+    AWS.config.credentials.get(function (err) {
+        if (!err) {
+         //DynamoDBService.getBookmarks(category, ctx.bookmarks);
+         DynamoDBService.createSidebar(AWS.config.credentials.identityId, ctx.newSidebar);
         }
       });
   }

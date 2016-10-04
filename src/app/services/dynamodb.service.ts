@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { Sidebar } from "../domain/sidebar";
 import { Category } from "../domain/category";
 
+import { UUID } from 'angular2-uuid';
 
 declare var AWS: any;
 
@@ -11,6 +12,8 @@ declare var AWS: any;
 export class DynamoDBService {
 
     public static DDB: any;
+
+    // --- sidebars ------------------------------------------
 
     static getSidebars(id: string, mapArray: Array<Sidebar>) {
         var params = {
@@ -34,6 +37,30 @@ export class DynamoDBService {
         }
     }
 
+    static createSidebar(userId: string, newSidebar: Sidebar) {
+        console.log("creating sidebar " + name);
+        DynamoDBService.DDB = new AWS.DynamoDB({
+            params: { TableName: 'sidebar' }
+        });
+
+        // Write the item to the table
+        var itemParams =
+            {
+                Item: {
+                    userId: { S: userId },
+                    sidebarName: { S: newSidebar.sidebarName },
+                    uuid: { S: UUID.UUID() }
+                }
+            };
+        console.log(itemParams);
+        DynamoDBService.DDB.putItem(itemParams, function (result) {
+            console.log(result);
+        });
+    }
+
+
+    // --- categories -----------------------------------------------
+
     static getCategories(sidebarUUID: string, mapArray: Array<any>) {
         var params = {
             TableName: 'bookmark',
@@ -56,7 +83,7 @@ export class DynamoDBService {
         }
     }
 
-    static getCategories2(sidebarUUID: string, onQuery:any) {
+    static getCategories2(sidebarUUID: string, onQuery: any) {
         var params = {
             TableName: 'bookmark',
             KeyConditionExpression: "sidebarUUID = :sidebarUUID",
@@ -66,6 +93,27 @@ export class DynamoDBService {
         };
         var docClient = new AWS.DynamoDB.DocumentClient();
         docClient.query(params, onQuery);
+    }
+
+    static createCategory(sidebarUuid: string, name: string) {
+        console.log("creating category with name " + name);
+        DynamoDBService.DDB = new AWS.DynamoDB({
+            params: { TableName: 'bookmark' }
+        });
+
+        // Write the item to the table
+        var itemParams =
+            {
+                Item: {
+                    sidebarUUID: { S: sidebarUuid },
+                    bucketname: { S: name },
+                    uuid: { S: UUID.UUID() }
+                }
+            };
+        console.log(itemParams);
+        DynamoDBService.DDB.putItem(itemParams, function (result) {
+            console.log(result);
+        });
     }
 
     static updateCategory(category: Category) {
@@ -88,8 +136,9 @@ export class DynamoDBService {
             };
         //DynamoDBService.DDB.putItem(itemParams, function (result) {
         //});
-
     }
+
+    // --- bookmarks -----------------------------------------------
 
     static getBookmarks(id: string, mapArray: Array<any>) {
         var params = {
@@ -115,7 +164,7 @@ export class DynamoDBService {
         }
     }
 
-    static writeLogEntry(type: string) {
+    /*static writeLogEntry(type: string) {
         let date = new Date().toString();
         //console.log("Writing log entry..type:" + type + " id: " + AWS.config.credentials.params.IdentityId + " date: " + date);
         DynamoDBService.write(AWS.config.credentials.params.IdentityId, date, type);
@@ -137,6 +186,6 @@ export class DynamoDBService {
             };
         DynamoDBService.DDB.putItem(itemParams, function (result) {
         });
-    }
+    }*/
 
 }

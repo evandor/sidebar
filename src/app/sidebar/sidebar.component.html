@@ -44,7 +44,7 @@
             <div style="padding:14px;">
                 <div><br><b><i>Sidebars</i>:</b></div>
                 <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars','local']" target="_top">local</a>                &nbsp;
-                <input name="newcat" size="7" placeholder="new cat" (change)="createCategory('local', $event.target.value)">
+                <input name="newcat" size="7" placeholder="new cat" (change)="createCategory($event.target.value)">
                 <!--
                 <div *ngFor="let sidebar of sidebars">
                     <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars',sidebar.uuid]" target="_top">{{sidebar.sidebarName}}</a>
