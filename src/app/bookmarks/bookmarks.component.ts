@@ -33,7 +33,7 @@ export class BookmarksComponent implements OnInit {
 
   localBMsIdent = 'localBMs';
   localBMs = new Array<Category>();
- 
+
   categories: Array<Category> = [];
 
   constructor(public route: ActivatedRoute, private _zone: NgZone, private awsService: AWSService) { }
@@ -82,9 +82,13 @@ export class BookmarksComponent implements OnInit {
       this.handleLocalSidebar();
     } else if (this.currentSidebarUuid == null) {
       this.message = "sidebar uuid is null!";
+      return;
     } else {
       this.handleRemoteSidebar();
     }
+    this._zone.runOutsideAngular(() => {
+      location.reload();
+    });
   }
 
   handleLocalSidebar() {
@@ -108,30 +112,29 @@ export class BookmarksComponent implements OnInit {
     AWS.config.credentials.get(function (err) {
       if (!err) {
         DynamoDBService.getCategories2(ctx.currentSidebarUuid, function onQuery(err, data) {
-            if (err) {
-                console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
-            } else {
-                data.Items.forEach(function (category) {
-                    if (category.uuid == ctx.currentCategoryUuid) {
-                      console.log(category);
-                      if (category.bookmarks == null) {
-                        console.log("new array of bookmarks");
-                        category.bookmarks = new Array<Bookmark>();
-                      } else {
-                        category.bookmarks = JSON.parse(category.bookmarks);
-                      }
-                      console.log("submitting...");
-                      console.log(category.bookmarks);
-                      console.log(ctx.bookmark);
-                      console.log("go...");
-                      category.bookmarks.push(ctx.bookmark);
-                      DynamoDBService.updateCategory(ctx.currentSidebarUuid, category);
-                    }
-                    //mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
-                });
-            }
+          if (err) {
+            console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
+          } else {
+            data.Items.forEach(function (category) {
+              if (category.uuid == ctx.currentCategoryUuid) {
+                console.log(category);
+                if (category.bookmarks == null) {
+                  console.log("new array of bookmarks");
+                  category.bookmarks = new Array<Bookmark>();
+                } else {
+                  category.bookmarks = JSON.parse(category.bookmarks);
+                }
+                console.log("submitting...");
+                console.log(category.bookmarks);
+                console.log(ctx.bookmark);
+                console.log("go...");
+                category.bookmarks.push(ctx.bookmark);
+                DynamoDBService.updateCategory(ctx.currentSidebarUuid, category);
+              }
+              //mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: logitem.bookmarks });
+            });
+          }
         });
-        window.location.reload();
       }
     });
   }

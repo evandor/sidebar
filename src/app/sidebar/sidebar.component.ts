@@ -59,6 +59,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   private newCatName = "";
 
+  private sidebarTitle = "the bookmark manager";
+
   constructor(public route: ActivatedRoute, private domSanitizer: DomSanitizer, private _zone: NgZone) {
     this.appstate = new AppState();
   }
@@ -67,6 +69,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       if (params['sidebar'] != null) {
         this.currentSidebarUuid = params['sidebar'];
+        this.sidebarTitle = this.currentSidebarUuid;
       }
     });
     var localCatsAsString = localStorage.getItem(this.localCategoriesIdent);
@@ -133,6 +136,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
             var id = AWS.config.credentials.identityId;
             ctx.fetchBookmarks(ctx.currentSidebarUuid);
             DynamoDBService.getSidebars(id, ctx.sidebars);
+            ctx.sidebars.forEach(function (sidebar: Sidebar) {
+              console.log(sidebar);
+              if (sidebar.uuid == ctx.currentSidebarUuid) {
+                ctx.sidebarTitle = sidebar.sidebarName;
+              }
+            });
           }
         });
       }
