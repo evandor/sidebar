@@ -3,12 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Bookmark } from '../domain/bookmark';
 import { Category } from '../domain/category';
+
 import { DynamoDBService } from '../services/dynamodb.service';
 import { AWSService } from '../services/aws.service';
 import { GoogleService } from '../services/google.service';
-
-
-
 
 declare var gapi: any; // Google's login API namespace
 declare var AWS: any;  // Amazon
