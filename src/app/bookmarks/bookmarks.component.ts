@@ -86,9 +86,9 @@ export class BookmarksComponent implements OnInit {
     } else {
       this.handleRemoteSidebar();
     }
-    this._zone.runOutsideAngular(() => {
+    /*this._zone.runOutsideAngular(() => {
       location.reload();
-    });
+    });*/
   }
 
   handleLocalSidebar() {
