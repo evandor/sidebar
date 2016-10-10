@@ -5,6 +5,7 @@ import { SidebarsComponent } from './sidebars/sidebars.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { AboutComponent } from './about/about.component';
 import { FaqComponent } from './faq/faq.component';
+import { FirefoxComponent } from './firefox/firefox.component';
 
 //import { NoContent } from './no-content';
 
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
   { path: 'sidebar',                                  component: SidebarComponent },
   { path: 'sidebars/:sidebar/categories/:category',   component: BookmarksComponent },
   { path: 'sidebars/:sidebar',                        component: SidebarComponent },
+  { path: 'firefox/:sidebar',                         component: FirefoxComponent },
   { path: '**',                                       component: SidebarComponent }
 ];
 

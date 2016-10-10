@@ -11,12 +11,13 @@ import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { AboutComponent } from './about/about.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FaqComponent } from './faq/faq.component';
+import { FirefoxComponent } from './firefox/firefox.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarsComponent, 
-    BookmarksComponent, AboutComponent, SidebarComponent, FaqComponent
+    BookmarksComponent, AboutComponent, SidebarComponent, FaqComponent, FirefoxComponent
   ],
   imports: [
     BrowserModule,
