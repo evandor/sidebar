@@ -4,7 +4,6 @@
         <div id="anonymousSidebar" style="width:190px; padding-left:5px;padding-top:5px;">
             <h3>{{sidebarTitle}}</h3>
             <div style="padding:14px;">
-                <div *ngIf="sidebars.length == 0 && authenticated"><br><i class="fa fa-spinner fa-spin" style="font-size:16px;color:green;" aria-hidden="true"></i></div>
                 <div><img src="{{userPic}}" height="16px;" align="top">&nbsp;{{userDisplayName}} &nbsp;
                     <span *ngIf="authenticated"><a (click)="signOut()" target="_top">
                         <i class="fa fa-sign-out" aria-hidden="true" title="sign out"></i></a>
@@ -16,7 +15,7 @@
                 <div><a [routerLink]="['/about']" target="content">About</a></div>
                 <div><a [routerLink]="['/help']" target="content">Help</a></div>
                 <div><a [routerLink]="['/faq']" target="content">FAQ</a></div>
-                <div>v 0.0.1</div>
+                <div><small>v 0.0.1</small></div>
             </div>
             <h3 *ngIf="!authenticated">Examples</h3>
             <div style="padding:14px;" *ngIf="!authenticated">
@@ -27,8 +26,6 @@
             </div>
             <h3>Debug</h3>
             <div style="padding:14px;">
-                <div>Sidebar:</div>
-                <div>{{currentSidebarUuid}}</div>
                 <div>Category:</div>
                 <div><a *ngIf="currentCategoryUuid != null" [routerLink]="['/sidebars', currentSidebarUuid,'categories',currentCategoryUuid]" target="content">{{currentCategoryUuid}}</a></div>
             </div>
@@ -44,21 +41,6 @@
                 <div *ngFor="let sidebar of sidebars">
                     <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<a [routerLink]="['/sidebars',sidebar.uuid]" target="_top">{{sidebar.sidebarName}}</a>
                 </div>-->
-            </div>
-            <h3>Google</h3>
-            <div>
-                <div><a href="https://console.aws.amazon.com" target="_amazonaws">AWS Console</a></div>
-                <div><a href="https://console.aws.amazon.com/dynamodb/home?region=us-east-1" target="_amazondynamodb">DynamoDb</a></div>
-                <div><a href="https://inbox.google.com" target="_googleinbox">Inbox</a></div>
-                <div><a href="https://calendar.google.com/calendar/render" target="_googlecalendar">Calendar</a></div>
-                <div><a href="https://drive.google.com/drive" target="_googledrive">Drive</a></div>
-                <div><a href="https://analytics.google.com" target="_googledrive">Analytics</a></div>
-                <div><a href="https://www.google.com/adsense" target="_googleadsense">Adsense</a></div>
-                <div><a href="https://www.blogger.com/home" target="_googleblogger">Blogger</a></div>
-                <div><a href="https://www.google.com/webmasters/" target="_googlewebmasters">Webmaster Tools</a></div>
-                <div><a href="https://groups.google.com" target="_googlegroups">Groups</a></div>
-                <div><a href="https://chrome.google.com/webstore" target="_googlechromewebstore">Chrome Webstore</a></div>
-                <div><a href="https://firebase.google.com/" target="_googlefirebase">Firebase</a></div>
             </div>
             <!--<h3>Experiments</h3>
             <div>

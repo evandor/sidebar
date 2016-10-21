@@ -134,6 +134,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         AWS.config.credentials.get(function (err) {
           if (!err) {
             var id = AWS.config.credentials.identityId;
+            console.log("fetching bookmarks for sidebar " + ctx.currentSidebarUuid);
             ctx.fetchBookmarks(ctx.currentSidebarUuid);
             DynamoDBService.getSidebars(id, ctx.sidebars);
             ctx.sidebars.forEach(function (sidebar: Sidebar) {
@@ -142,6 +143,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
                 ctx.sidebarTitle = sidebar.sidebarName;
               }
             });
+            //console.log("accordion");
+            //ctx.loadAccordion();
           }
         });
       }
