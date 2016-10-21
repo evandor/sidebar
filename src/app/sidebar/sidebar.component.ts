@@ -69,7 +69,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       if (params['sidebar'] != null) {
         this.currentSidebarUuid = params['sidebar'];
-        this.sidebarTitle = this.currentSidebarUuid;
       }
     });
     var localCatsAsString = localStorage.getItem(this.localCategoriesIdent);
@@ -134,17 +133,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
         AWS.config.credentials.get(function (err) {
           if (!err) {
             var id = AWS.config.credentials.identityId;
-            console.log("fetching bookmarks for sidebar " + ctx.currentSidebarUuid);
             ctx.fetchBookmarks(ctx.currentSidebarUuid);
-            DynamoDBService.getSidebars(id, ctx.sidebars);
-            ctx.sidebars.forEach(function (sidebar: Sidebar) {
-              console.log(sidebar);
-              if (sidebar.uuid == ctx.currentSidebarUuid) {
-                ctx.sidebarTitle = sidebar.sidebarName;
+            //DynamoDBService.getSidebars(id, ctx.sidebars);
+            DynamoDBService.getSidebars2(id, function onQuery(err, data) {
+              if (err) {
+                console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
+              } else {
+                data.Items.forEach(function (logitem) {
+                  ctx.sidebars.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId });
+                  if (logitem.uuid == ctx.currentSidebarUuid) {
+                    ctx.sidebarTitle = logitem.sidebarName;
+                  }
+                });
+                ctx.loadAccordion();
               }
-            });
-            //console.log("accordion");
-            //ctx.loadAccordion();
+            })
           }
         });
       }

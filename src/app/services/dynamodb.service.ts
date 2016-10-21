@@ -37,6 +37,18 @@ export class DynamoDBService {
         }
     }
 
+    static getSidebars2(id: string, onQuery: any) {
+        var params = {
+            TableName: 'sidebar',
+            KeyConditionExpression: "userId = :userId",
+            ExpressionAttributeValues: {
+                ":userId": id
+            }
+        };
+        var docClient = new AWS.DynamoDB.DocumentClient();
+        docClient.query(params, onQuery);
+    }
+    
     static createSidebar(userId: string, newSidebar: Sidebar) {
         console.log("creating sidebar " + name);
         DynamoDBService.DDB = new AWS.DynamoDB({
@@ -157,7 +169,6 @@ export class DynamoDBService {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
                 data.Items.forEach(function (logitem) {
-                    console.log("hier");
                     console.log(logitem.bookmarks);
                     if (logitem.bookmarks == null) {
                         mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid });
