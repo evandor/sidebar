@@ -118,13 +118,20 @@ export class FirefoxComponent implements OnInit {
           if (!err) {
             var id = AWS.config.credentials.identityId;
             ctx.fetchBookmarks(ctx.currentSidebarUuid);
-            DynamoDBService.getSidebars(id, ctx.sidebars);
-            ctx.sidebars.forEach(function (sidebar: Sidebar) {
-              console.log(sidebar);
-              if (sidebar.uuid == ctx.currentSidebarUuid) {
-                ctx.sidebarTitle = sidebar.sidebarName;
+            //DynamoDBService.getSidebars(id, ctx.sidebars);
+            DynamoDBService.getSidebars2(id, function onQuery(err, data) {
+              if (err) {
+                console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
+              } else {
+                data.Items.forEach(function (logitem) {
+                  ctx.sidebars.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId, selected: false });
+                  if (logitem.uuid == ctx.currentSidebarUuid) {
+                    ctx.sidebarTitle = logitem.sidebarName;
+                  }
+                });
+                ctx.loadAccordion();
               }
-            });
+            })
           }
         });
       }

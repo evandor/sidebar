@@ -5,6 +5,8 @@ import { Bookmark } from '../domain/bookmark';
 import { DynamoDBService } from '../services/dynamodb.service';
 import { GoogleService } from '../services/google.service';
 import { AWSService } from '../services/aws.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 declare var gapi: any; // Google's login API namespace
 declare var AWS: any;  // Amazon´
@@ -22,10 +24,20 @@ export class SidebarsComponent {
   categories: Array<Category> = [];
   bookmarks: Array<Bookmark> = [];
   googleLoginButtonId = "google-login-button";
+  sub: Subscription;
+  currentSidebarUuid: string;
   
   private newSidebar: Sidebar = new Sidebar();
   
-  constructor(private _zone: NgZone, private googleService: GoogleService, private awsService: AWSService) { }
+  constructor(public route: ActivatedRoute, private _zone: NgZone, private googleService: GoogleService, private awsService: AWSService) { }
+
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      if (params['sidebar'] != null) {
+        this.currentSidebarUuid = params['sidebar'];
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.googleService.init(this.onGoogleLoginSuccess);
@@ -39,6 +51,12 @@ export class SidebarsComponent {
       AWS.config.credentials.get(function (err) {
         if (!err) {
           DynamoDBService.getSidebars(AWS.config.credentials.identityId, ctx.sidebars);
+          ctx.sidebars.forEach(sb => {
+            console.log(sb.uuid + "/" + ctx.currentSidebarUuid);
+            if (sb.uuid == ctx.currentSidebarUuid) {
+              sb.selected = true;
+            }
+          })
         }
       });
     });

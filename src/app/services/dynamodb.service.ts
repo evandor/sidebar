@@ -31,7 +31,7 @@ export class DynamoDBService {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
             } else {
                 data.Items.forEach(function (logitem) {
-                    mapArray.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId });
+                    mapArray.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId, selected: false });
                 });
             }
         }

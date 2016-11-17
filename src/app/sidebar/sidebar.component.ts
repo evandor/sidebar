@@ -140,7 +140,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
                 console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
               } else {
                 data.Items.forEach(function (logitem) {
-                  ctx.sidebars.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId });
+                  ctx.sidebars.push({ sidebarName: logitem.sidebarName, uuid: logitem.uuid, userId: logitem.userId, selected: false });
                   if (logitem.uuid == ctx.currentSidebarUuid) {
                     ctx.sidebarTitle = logitem.sidebarName;
                   }
