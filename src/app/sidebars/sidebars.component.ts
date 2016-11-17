@@ -17,7 +17,7 @@ declare var AWS: any;  // Amazon´
   styleUrls: ['./sidebars.component.css'],
   providers: [GoogleService, AWSService]
 })
-export class SidebarsComponent {
+export class SidebarsComponent implements OnInit {
  
   authenticated = false;
   sidebars: Array<Sidebar> = [];
