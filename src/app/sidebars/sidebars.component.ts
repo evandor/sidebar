@@ -3,6 +3,8 @@ import { Sidebar } from '../domain/sidebar';
 import { Category } from '../domain/category';
 import { Bookmark } from '../domain/bookmark';
 import { DynamoDBService } from '../services/dynamodb.service';
+import { BookmarksService } from '../services/bookmarks.service';
+
 import { GoogleService } from '../services/google.service';
 import { AWSService } from '../services/aws.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,27 +19,17 @@ declare var AWS: any;  // Amazon´
   styleUrls: ['./sidebars.component.css'],
   providers: [GoogleService, AWSService]
 })
-export class SidebarsComponent implements OnInit {
- 
+export class SidebarsComponent {
+
   authenticated = false;
   sidebars: Array<Sidebar> = [];
   categories: Array<Category> = [];
   bookmarks: Array<Bookmark> = [];
   googleLoginButtonId = "google-login-button";
-  sub: Subscription;
-  currentSidebarUuid: string;
-  
-  private newSidebar: Sidebar = new Sidebar();
-  
-  constructor(public route: ActivatedRoute, private _zone: NgZone, private googleService: GoogleService, private awsService: AWSService) { }
 
-  ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      if (params['sidebar'] != null) {
-        this.currentSidebarUuid = params['sidebar'];
-      }
-    });
-  }
+  private newSidebar: Sidebar = new Sidebar();
+
+  constructor(private _zone: NgZone, private googleService: GoogleService, private awsService: AWSService) { }
 
   ngAfterViewInit() {
     this.googleService.init(this.onGoogleLoginSuccess);
@@ -51,12 +43,6 @@ export class SidebarsComponent implements OnInit {
       AWS.config.credentials.get(function (err) {
         if (!err) {
           DynamoDBService.getSidebars(AWS.config.credentials.identityId, ctx.sidebars);
-          ctx.sidebars.forEach(sb => {
-            console.log(sb.uuid + "/" + ctx.currentSidebarUuid);
-            if (sb.uuid == ctx.currentSidebarUuid) {
-              sb.selected = true;
-            }
-          })
         }
       });
     });
@@ -66,30 +52,30 @@ export class SidebarsComponent implements OnInit {
     this.categories = new Array<Category>();
     var ctx = this;
     AWS.config.credentials.get(function (err) {
-        if (!err) {
-          DynamoDBService.getCategories(sidebar, ctx.categories);
-        }
-      });
+      if (!err) {
+        DynamoDBService.getCategories(sidebar, ctx.categories);
+      }
+    });
   }
 
   setCategory(category: string) {
     this.bookmarks = new Array<Bookmark>();
     var ctx = this;
     AWS.config.credentials.get(function (err) {
-        if (!err) {
-         DynamoDBService.getBookmarks(category, ctx.bookmarks);
-        }
-      });
+      if (!err) {
+        BookmarksService.getBookmarksForCategory(category, ctx.bookmarks);
+      }
+    });
   }
 
   onSubmit() {
     var ctx = this;
     AWS.config.credentials.get(function (err) {
-        if (!err) {
-         //DynamoDBService.getBookmarks(category, ctx.bookmarks);
-         DynamoDBService.createSidebar(AWS.config.credentials.identityId, ctx.newSidebar);
-        }
-      });
+      if (!err) {
+        //DynamoDBService.getBookmarks(category, ctx.bookmarks);
+        DynamoDBService.createSidebar(AWS.config.credentials.identityId, ctx.newSidebar);
+      }
+    });
   }
 
 }

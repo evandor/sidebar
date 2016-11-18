@@ -48,7 +48,7 @@ export class DynamoDBService {
         var docClient = new AWS.DynamoDB.DocumentClient();
         docClient.query(params, onQuery);
     }
-    
+
     static createSidebar(userId: string, newSidebar: Sidebar) {
         console.log("creating sidebar " + name);
         DynamoDBService.DDB = new AWS.DynamoDB({
@@ -150,35 +150,8 @@ export class DynamoDBService {
         });
     }
 
-    // --- bookmarks -----------------------------------------------
+   
 
-    static getBookmarks(id: string, mapArray: Array<any>) {
-        var params = {
-            TableName: 'bookmark',
-            KeyConditionExpression: "sidebarUUID = :sidebarUUID",
-            ExpressionAttributeValues: {
-                ":sidebarUUID": id
-            }
-        };
-        //console.log(params);
-        var docClient = new AWS.DynamoDB.DocumentClient();
-        docClient.query(params, onQuery);
-
-        function onQuery(err, data) {
-            if (err) {
-                console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
-            } else {
-                data.Items.forEach(function (logitem) {
-                    console.log(logitem.bookmarks);
-                    if (logitem.bookmarks == null) {
-                        mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid });
-                    } else {
-                        mapArray.push({ bucketname: logitem.bucketname, uuid: logitem.uuid, bookmarks: JSON.parse(logitem.bookmarks) });
-                    }
-                });
-            }
-        }
-    }
 
     /*static writeLogEntry(type: string) {
         let date = new Date().toString();

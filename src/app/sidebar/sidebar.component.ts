@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DynamoDBService } from '../services/dynamodb.service';
+import { BookmarksService } from '../services/bookmarks.service';
+
 import { AppState } from '../domain/appstate';
 import { Sidebar } from '../domain/sidebar';
 import { Category } from '../domain/category';
@@ -108,7 +110,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   fetchBookmarks(id) {
     console.log("fetching bookmarks for sidebar " + id);
-    DynamoDBService.getBookmarks(id, this.bookmarks);
+    BookmarksService.getBookmarks(id, this.bookmarks);
   }
 
   onGoogleLoginSuccess = (loggedInUser) => {

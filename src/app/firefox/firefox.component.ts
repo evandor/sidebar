@@ -8,6 +8,7 @@ import { Category } from '../domain/category';
 
 
 import { DynamoDBService } from '../services/dynamodb.service';
+import { BookmarksService } from '../services/bookmarks.service';
 import { AWSService } from '../services/aws.service';
 import { GoogleService } from '../services/google.service';
 
@@ -92,7 +93,7 @@ export class FirefoxComponent implements OnInit {
 
   fetchBookmarks(id) {
     console.log("fetching bookmarks for sidebar " + id);
-    DynamoDBService.getBookmarks(id, this.bookmarks);
+    BookmarksService.getBookmarks(id, this.bookmarks);
   }
 
   onGoogleLoginSuccess = (loggedInUser) => {

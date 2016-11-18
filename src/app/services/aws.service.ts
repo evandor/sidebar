@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { DynamoDBService } from '../services/dynamodb.service';
 import { Sidebar } from '../domain/sidebar';
 
 
