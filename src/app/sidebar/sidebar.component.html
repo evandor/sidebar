@@ -49,7 +49,7 @@
             </div>
         </div>-->
 
-        <div *ngIf="currentSidebarUuid!='local'" id="accordion3" style="width:190px; padding-left:5px;padding-top:5px;">
+        <!--<div *ngIf="currentSidebarUuid!='local'" id="accordion3" style="width:190px; padding-left:5px;padding-top:5px;">
             <template ngFor <template ngFor let-category [ngForOf]="bookmarks">
                 <h3 (click)="setCat(category)">{{category.bucketname}}</h3>
                 <div>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </template>
-        </div>
+        </div>-->
 
         <div *ngIf="currentSidebarUuid=='local'" id="accordion4" style="width:190px; padding-left:5px;padding-top:5px;">
             <template ngFor <template ngFor let-category [ngForOf]="localBMs">

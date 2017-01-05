@@ -18,8 +18,8 @@ declare var jQuery: any;
 
 @Component({
   selector: 'sidebar',
-  styleUrls: ['sidebar.component.css'],
-  templateUrl: 'sidebar.component.html',
+  styleUrls: ['./sidebar.component.css'],
+  templateUrl: './sidebar.component.html',
   animations: [
     trigger('heroState', [
       state('inactive', style({
